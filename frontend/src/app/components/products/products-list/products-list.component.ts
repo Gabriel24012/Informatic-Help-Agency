@@ -4,6 +4,7 @@ import { ProductsCardComponent } from "../products-card/products-card.component"
 import { ProductsService } from '../../../core/services/products/products.service';
 import { PlaceholderComponent } from "../../shared/placeholder/placeholder/placeholder.component";
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-products-list',
@@ -23,12 +24,15 @@ export class ProductsListComponent implements OnInit, OnChanges {
   };
 
 
-  constructor(private productsService: ProductsService) { }
+  constructor(private productsService: ProductsService, private route: ActivatedRoute) { }
 
 
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+    this.categoryId = params['category'] || '';
     this.getProducts();
+  });
   }
 
   ngOnChanges(changes: SimpleChanges) {

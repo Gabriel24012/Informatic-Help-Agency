@@ -101,17 +101,10 @@ export class HeaderComponent implements OnInit {
   selectedCategoryId: string = '';
 
   selectCategory(categoryId: string) {
-    this.categoriesOpen = false;
+  this.selectedCategoryId = categoryId;
+  this.router.navigate(['/products-list'], { queryParams: { category: categoryId || null } });
+}
 
-    if (!categoryId) {
-      this.router.navigate(['/products']);
-      return;
-    }
-
-    this.router.navigate(['/products'], {
-      queryParams: { category: categoryId }
-    });
-  }
 
 
 }
