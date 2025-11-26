@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SearchProductsComponent } from "../products/search-products/search-products.component";
 import { AuthService } from '../../core/services/auth/auth.service';
 import { ToastService } from '../../core/services/toast/toast.service';
@@ -34,6 +34,8 @@ export class HeaderComponent implements OnInit {
   private categoriesTimeout?: any;
   private servicesTimeout?: any;
   private userTimeout?: any;
+  private router = inject(Router);
+
 
 
 
@@ -99,7 +101,16 @@ export class HeaderComponent implements OnInit {
   selectedCategoryId: string = '';
 
   selectCategory(categoryId: string) {
-    this.selectedCategoryId = categoryId;
+    this.categoriesOpen = false;
+
+    if (!categoryId) {
+      this.router.navigate(['/products']);
+      return;
+    }
+
+    this.router.navigate(['/products'], {
+      queryParams: { category: categoryId }
+    });
   }
 
 
