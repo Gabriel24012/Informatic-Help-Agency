@@ -1,0 +1,12 @@
+<div class="mb-4">
+    <label [for]="fieldId" class="block text-sm font-medium text-gray-50 mb-2">
+        {{ label }}
+        <span *ngIf="required" class="text-sm tex">*</span>
+    </label>
+
+    <input [id]="fieldId" [type]="type" [placeholder]="placeholder" [value]="value" [disabled]="disabled"
+        (input)="onInputChange($event)" (blur)="onBlur()"
+        [class]="inputClass || 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors'" />
+
+    <app-error-message [message]="errorMessage"></app-error-message>
+</div>

@@ -1,0 +1,45 @@
+<div class="fixed top-24 right-4 z-20 space-y-3 w-80">
+    
+
+    @if (showHistory) {
+    <div class="bg-gray-800/90 backdrop-blur-sm rounded-xl p-4 max-h-96 overflow-y-auto border border-gray-600">
+        <div class="flex justify-between items-center mb-3">
+            <h3 class="text-white font-medium text-sm">Últimas Notificaciones</h3>
+            <button class="text-gray-400 hover:text-white text-xs underline">
+                Limpiar
+            </button>
+        </div>
+
+        @if (toastHistory$ | async; as history) {
+
+        <div class="space-y-2">
+            @for (toast of history; track toast.id) {
+            <div class="p-2 rounded border border-gray-600 text-xs" [ngClass]="{
+          'bg-green-600/30 text-green-100': toast.type === 'success',
+          'bg-red-600/30 text-red-100': toast.type === 'error'
+        }">
+                <p class="truncate">{{ toast.text }}</p>
+                <small class="text-gray-400">ID: {{ toast.id }}</small>
+            </div>
+            } @empty {
+            <p class="text-gray-400 text-sm text-center py-4">
+                No hay notificaciones
+            </p>
+            }
+        </div>
+        }
+    </div>
+    } @if (toasts$ | async; as toasts) { @for (toast of toasts; track toast.id) {
+    <div class="toast-slide-in rounded-xl shadow-lg backdrop-blur-sm border border-white/20 p-4 text-white transform transition-all duration-300 hover:scale-[1.02]"
+        [ngClass]="{
+      'bg-green-500/90': toast.type === 'success',
+      'bg-red-500/90': toast.type === 'error'
+    }">
+        <div class="flex items-center justify-between">
+            <p class="font-medium text-sm leading-snug">
+                {{ toast.text }}
+            </p>
+        </div>
+    </div>
+    } }
+</div>

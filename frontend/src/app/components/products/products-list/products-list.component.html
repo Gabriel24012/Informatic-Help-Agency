@@ -1,0 +1,47 @@
+<h2 class="text-3xl text-slate-800 gap-3 text-center mt-5 font-semibold mb-3">
+    Control De Asistencia
+</h2>
+
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-10 gap-3 md:gap-4 max-w-4xl mx-auto">
+    @defer (on viewport; prefetch on hover) {
+    @for (product of productResponse.products; track product._id) {
+    <app-products-card [product]="product"></app-products-card>
+    }
+    } @loading (minimum 300ms) {
+    @for (skeleton of skeletonArray; track $index) {
+    <app-placeholder></app-placeholder>
+    }
+    } @placeholder {
+    <div class="col-span-full text-center py-8">
+        <div class="bg-gray-100 rounded-lg p-6 border-2 border-dashed border-gray-300">
+            <p class="text-gray-600">Los productos se cargarán cuando entren en vista</p>
+        </div>
+    </div>
+    } @error {
+    <div class="col-span-full text-center py-8">
+        <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+            <div class="flex items-center justify-center mb-4">
+                <svg class="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.728-.833-2.498 0L4.316 15.5c-.77.833.192 2.5 1.732 2.5z">
+                    </path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-red-800 mb-2">Error al cargar productos</h3>
+            <p class="text-red-600 mb-4">No pudimos cargar los productos. Por favor, intenta nuevamente.</p>
+            <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+                (click)="retryLoadProducts()">
+                Reintentar
+            </button>
+        </div>
+    </div>
+    }
+</div>
+
+<div class="w-full">
+    <mat-paginator [length]="productResponse.pagination.totalResults" [pageSize]="10" [pageSizeOptions]="[1,2,10]"
+        (page)="onPageChange($event)">
+    </mat-paginator>
+
+</div>

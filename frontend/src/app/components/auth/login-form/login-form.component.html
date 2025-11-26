@@ -1,0 +1,36 @@
+<div class="flex h-full items-start justify-center pt-24 bg-gradient-to-tr from-[#009999] to-[#1D4999] px-6 py-12">
+    <div class="w-full max-w-md bg-gray-900/80 backdrop-blur-md rounded-2xl shadow-2xl p-8">
+        <div class="text-center">
+            <img src="https://informatic-help.com.mx/assets/images/Logo-Banner.png" alt="Informatic Help"
+                class="mx-auto h-16 w-auto mb-6" />
+            <h2 class="text-3xl font-extrabold text-white mb-2">Bienvenido de nuevo</h2>
+            <p class="text-gray-300">Inicia sesión en tu cuenta para continuar</p>
+        </div>
+
+        <form (ngSubmit)="handleSubmit()" [formGroup]="loginForm" class="mt-8 space-y-6 ">
+            <app-form-field label="Correo electrónico"  fieldId="email" type="email" placeholder="example@email.com"
+                [required]="true" [errorMessage]="getErrorMessage('email')" formControlName="email"
+                inputClass="mt-2 block w-full rounded-lg bg-white/10 px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1 transition-all duration-200"></app-form-field>
+
+            <app-form-field label="Contraseña" fieldId="password" type="password" placeholder="*********"
+                [required]="true" [errorMessage]="getErrorMessage('password')" formControlName="password"
+                inputClass="mt-2 block w-full rounded-lg bg-white/10 px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1 transition-all duration-200">
+            </app-form-field>
+
+            <div class="flex justify-end">
+                <a routerLink="/forgot-password"
+                    class="text-sm text-indigo-400 hover:text-indigo-300 font-semibold">¿Olvidaste la contraseña?</a>
+            </div>
+
+            <button type="submit" [disabled]="!loginForm.valid"
+                class="w-full py-2.5 bg-indigo-500 hover:bg-indigo-400 text-white font-semibold rounded-lg shadow-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                Iniciar sesión
+            </button>
+        </form>
+
+        <p class="mt-6 text-center text-gray-300">
+            ¿No eres miembro?
+            <a routerLink="/register" class="text-indigo-400 font-semibold hover:text-indigo-300">Registrarse</a>
+        </p>
+    </div>
+</div>

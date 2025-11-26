@@ -1,0 +1,27 @@
+<div class="bg-white py-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+            Productos recomendados
+        </h2>
+
+        <div class="relative">
+            <button (click)="scrollPrev()"
+                class="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-200 p-3 rounded-full shadow-md z-20 hover:bg-gray-300">
+                &#10094;
+            </button>
+
+            <div #carousel class="flex overflow-x-auto gap-6 snap-x snap-mandatory scrollbar-hide pr-6">
+
+                <div *ngFor="let producto of productos" class="flex-shrink-0 w-72 snap-start">
+                    <app-products-card [product]="producto"></app-products-card>
+                </div>
+
+            </div>
+
+            <button (click)="scrollNext()"
+                class="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-200 p-3 rounded-full shadow-md z-20 hover:bg-gray-300">
+                &#10095;
+            </button>
+        </div>
+    </div>
+</div>

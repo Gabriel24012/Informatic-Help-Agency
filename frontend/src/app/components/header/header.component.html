@@ -1,0 +1,167 @@
+<header class="bg-gradient-to-r from-[#009999] to-[#1D4999] text-white shadow-md w-full">
+    <div class="flex items-center justify-between px-5 py-6">
+
+        <div class="flex items-center">
+            <a [routerLink]="'/'"><img src="images/Logo-Banner.png" alt="Logo" class="h-10 w-auto" /></a>
+        </div>
+
+        <div class="flex items-center space-x-4 flex-1 justify-end px-8">
+
+            <!-- Categorías -->
+            <div class="relative" (mouseenter)="openCategories()" (mouseleave)="closeCategories()">
+                <button
+                    [ngClass]="{'bg-white text-[#1D4999]': categoriesOpen,'hover:bg-white hover:text-[#1D4999]': !categoriesOpen}"
+                    class="flex items-center space-x-1 px-3 py-2 rounded-md transition">
+                    <span class="text pl-1">Productos &#9662;</span>
+                </button>
+
+                <div class="absolute left-0 mt-2 w-40 bg-white text-gray-800 rounded-md shadow-lg py-2 z-10 transition-opacity duration-200"
+                    [class.hidden]="!categoriesOpen" (mouseenter)="openCategories()" (mouseleave)="closeCategories()">
+                    <!-- Dinámico: itera categorías padre -->
+                    <ng-container *ngIf="parentCategories$ | async as parents">
+                        <button *ngFor="let cat of parents" class="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                            (click)="selectCategory(cat._id || '')">
+                            {{ cat.name }}
+                        </button>
+                    </ng-container>
+
+                    <button class="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                        (click)="selectCategory('')">Todos</button>
+                </div>
+            </div>
+
+
+
+            <!-- Servicios -->
+            <div class="relative" (mouseenter)="openServices()" (mouseleave)="closeServices()">
+                <button [ngClass]="{'bg-white text-[#1D4999]': servicesOpen,'hover:bg-white hover:text-[#1D4999]': !servicesOpen
+        }" class="flex items-center space-x-1 px-3 py-2 rounded-md transition">
+                    Servicios <span class="ml-1">&#9662;</span>
+                </button>
+                <div class="absolute left-0 mt-2 w-40 bg-white text-gray-800 rounded-md shadow-lg py-2 z-10 transition-opacity duration-200"
+                    [class.hidden]="!servicesOpen" (mouseenter)="openServices()" (mouseleave)="closeServices()">
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Servicio 1</a>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Servicio 2</a>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Servicio 3</a>
+                </div>
+            </div>
+
+            <!-- Búsqueda -->
+            <div class="flex-1 mx-4">
+                <app-search-products [mode]="'header'"></app-search-products>
+            </div>
+
+            <!-- User Menu -->
+            <div class="flex items-center space-x-4">
+                <div class="relative" (mouseenter)="openUserMenu()" (mouseleave)="closeUserMenu()">
+                    <ng-container *ngIf="isLoggedIn(); else guestLinks">
+
+                        <!-- Admin Menu -->
+                        <ng-container *appAdmin>
+                            <button #userBtn
+                                class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-white/20 transition"
+                                aria-haspopup="true">
+                                <svg class="w-6 h-6 rounded-full bg-white/10 p-1" viewBox="0 0 24 24"
+                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z" />
+                                </svg>
+                                <span class="font-medium">{{ displayName }}</span>
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                            <div class="absolute right-0 mt-2 w-56 bg-white text-gray-800 rounded-md shadow-lg py-2 z-20"
+                                [class.hidden]="!userMenuOpen">
+                                <a [routerLink]="'/admin/products'" class="block px-4 py-2 hover:bg-gray-100">Gestión de
+                                    productos</a>
+                                <a [routerLink]="'/admin/orders'" class="block px-4 py-2 hover:bg-gray-100">Gestión de
+                                    pedidos</a>
+                                <a [routerLink]="'/admin/users'" class="block px-4 py-2 hover:bg-gray-100">Gestión de
+                                    usuarios</a>
+                                <a [routerLink]="'/admin/reports'" class="block px-4 py-2 hover:bg-gray-100">Reportes y
+                                    estadísticas</a>
+                                <a [routerLink]="'/admin/content'" class="block px-4 py-2 hover:bg-gray-100">Gestión de
+                                    contenido</a>
+                                <a (click)="onLogout()" class="block px-4 py-2 hover:bg-gray-100 cursor-pointer">Cerrar
+                                    sesión</a>
+                            </div>
+                        </ng-container>
+
+                        <!-- Regular User Menu -->
+                        <ng-container *ngIf="!auth.decodedToken?.role || auth.decodedToken?.role !== 'admin'">
+                            <button #userBtn
+                                class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-white/20 transition"
+                                aria-haspopup="true">
+                                <svg class="w-6 h-6 rounded-full bg-white/10 p-1" viewBox="0 0 24 24"
+                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z" />
+                                </svg>
+                                <span class="font-medium">{{ displayName }}</span>
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                            <div class="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg py-2 z-20"
+                                [class.hidden]="!userMenuOpen">
+                                <a [routerLink]="'/user'" class="block px-4 py-2 hover:bg-gray-100">Mi Perfil</a>
+                                <a (click)="onLogout()" class="block px-4 py-2 hover:bg-gray-100 cursor-pointer ">Cerrar
+                                    sesión</a>
+                            </div>
+                        </ng-container>
+
+                    </ng-container>
+
+                    <ng-template #guestLinks>
+
+
+                        <div class="relative" (mouseenter)="openGuestMenu()" (mouseleave)="closeGuestMenu()">
+                            <a [routerLink]="'/login'"
+                                class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-white hover:text-[#1D4999] transition">
+                                <span>Iniciar sesión</span>
+                            </a>
+
+                            <div class="absolute right-0 mt-2 w-40 bg-white text-gray-800 rounded-md shadow-lg py-2 z-10"
+                                [class.hidden]="!guestMenuOpen">
+                                <a [routerLink]="'/register'" class="block px-4 py-2 hover:bg-gray-100">Registrarse</a>
+                                <a [routerLink]="'user'" class="block px-4 py-2 hover:bg-gray-100">Mis Compras</a>
+                            </div>
+                        </div>
+
+                    </ng-template>
+
+
+                </div>
+
+                <!-- favoritos y carrito solo para usuarios normales -->
+                <ng-container *ngIf="!auth.decodedToken?.role || auth.decodedToken?.role !== 'admin'">
+                    <a class="px-3 py-2 rounded-md hover:bg-white hover:text-[#1D4999] transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                            <path
+                                d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+                        </svg>
+                    </a>
+                    <span *ngIf="(cartItemCount$ | async) as count"
+                        class="absolute top-5 right-8 bg-blue-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                        [class.hidden]="count === 0" [style.transform]="'scale(' + (count > 0 ? 1.1 : 1) + ')'">
+                        {{ count }}
+                    </span>
+                    <a class="px-3 py-2 rounded-md hover:bg-white hover:text-[#1D4999] transition"
+                        [routerLink]="'/cart'">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+
+                        </svg>
+
+                    </a>
+
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</header>
