@@ -71,7 +71,7 @@ export type filters = {
 })
 export class ProductsService {
   // private baseUrl = 'http://localhost:3000/api/products';
-  private baseUrl = `${environment.BACK_URL}/products`;
+  private baseUrl = `${environment.BACK_URL}/api/products`;
 
 
   constructor(private httpClient: HttpClient) { }

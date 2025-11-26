@@ -11,7 +11,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class CartService implements OnDestroy {
   // private baseUrl = 'http://localhost:3000/api/cart';
-    private baseUrl = `${environment.BACK_URL}/cart`;
+    private baseUrl = `${environment.BACK_URL}/api/cart`;
   
 
   private cartSubject = new BehaviorSubject<Cart | null>(null);

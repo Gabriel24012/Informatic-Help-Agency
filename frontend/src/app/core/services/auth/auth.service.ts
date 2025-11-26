@@ -23,7 +23,7 @@ export interface AuthUser {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   // baseUrl = 'http://localhost:3000/api';
-  baseUrl = `${environment.BACK_URL}`;
+  baseUrl = `${environment.BACK_URL}/api`;
 
 
   private authSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(

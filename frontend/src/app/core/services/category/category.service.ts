@@ -8,7 +8,7 @@ import { environment } from '../../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
   // private apiUrl = 'http://localhost:3000/api/categories';
-  private apiUrl = `${environment.BACK_URL}/categories`;
+  private apiUrl = `${environment.BACK_URL}/api/categories`;
 
   private categoriesSubject = new BehaviorSubject<Category[]>([]);
   categories$ = this.categoriesSubject.asObservable();
